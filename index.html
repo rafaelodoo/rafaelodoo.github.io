@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Planes de implementación — Paquetes DIC · Odoo 19 Enterprise · Comercializadoras</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido</a>
+<header class="site-header">
+<div class="container">
+<h1>Planes de implementación — Paquetes DIC</h1>
+<p class="subtitle">Odoo 19 Enterprise · vertical Comercializadoras · tres ofertas cerradas (P1 Esencial · P2 Comercial · P3 Omnicanal)</p>
+<p class="attribution">Documento de consultoría · <strong>DIC Consultores</strong> · Arquitectura de Soluciones. Contenido alineado a los Markdown en <code>documentos/</code> (subcarpetas temáticas) del repositorio.</p>
+</div>
+</header>
+
+<nav class="sticky-package-bar" aria-label="Selección de paquete de implementación">
+<div class="sticky-inner">
+<ul class="package-tablist" role="tablist" aria-label="Paquetes">
+<li role="none"><button type="button" class="package-tab" role="tab" id="tab-p1" data-pkg="p1" aria-selected="true" aria-controls="p1"><span class="badge-initial" aria-hidden="true">P1</span> Esencial</button></li>
+<li role="none"><button type="button" class="package-tab" role="tab" id="tab-p2" data-pkg="p2" aria-selected="false" aria-controls="p2"><span class="badge-initial" aria-hidden="true">P2</span> Comercial</button></li>
+<li role="none"><button type="button" class="package-tab" role="tab" id="tab-p3" data-pkg="p3" aria-selected="false" aria-controls="p3"><span class="badge-initial" aria-hidden="true">P3</span> Omnicanal</button></li>
+</ul>
+<div class="sticky-actions">
+<label class="btn-ghost" style="display:flex;align-items:center;gap:0.35rem;margin:0;border:none;padding:0;">
+<span style="font-size:0.875rem;color:var(--color-text-muted);">Filtrar fases</span>
+<input type="search" id="fase-filter" placeholder="Nombre de actividad…" autocomplete="off" style="min-width:10rem;max-width:14rem;padding:0.35rem 0.5rem;border:1px solid var(--color-border);border-radius:6px;font:inherit;" />
+</label>
+<button type="button" class="btn-ghost" id="compact-toggle" aria-pressed="false">Vista compacta</button>
+<button type="button" class="btn-theme" id="theme-toggle">Tema claro / oscuro</button>
+<a class="btn-ghost" href="#comparativa">Ver comparativa</a>
+</div>
+</div>
+</nav>
+
+<main id="main" class="container">
+<p class="callout" style="margin-top:1rem;"><strong>Antes de comparar:</strong> en P1 no hay facturación timbrada al cliente; el <strong>PAC</strong> es responsabilidad del cliente cuando aplique timbrado (P2/P3). El POS en P1 no incluye CFDI. Integración <strong>DHL</strong> en matriz P3 es <strong>DHL Express (API)</strong>, no paquetería genérica. <a href="#riesgos-comunes">Ir a riesgos transversales</a></p>
+
+<section id="comparativa" class="card" aria-labelledby="comparativa-title">
+<h2 id="comparativa-title" class="section-title">Comparativa rápida</h2>
+<p class="section-intro">Cinco lecturas críticas: horas vendidas (rango), línea aparte no comercializada, timbrado, canales web/e-commerce y topes Studio.</p>
+<div class="table-wrap scroll-hint">
+<table class="data-table">
+<caption>Comparativa de paquetes según consolidado DIC</caption>
+<thead>
+<tr>
+<th scope="col">Criterio</th>
+<th scope="col">P1 Esencial</th>
+<th scope="col">P2 Comercial</th>
+<th scope="col">P3 Omnicanal</th>
+</tr>
+</thead>
+<tbody>
+<tr><th scope="row">Horas vendidas (rango)</th><td class="num hours-sold">79–123 h</td><td class="num hours-sold">89–137 h</td><td class="num hours-sold">102–157 h</td></tr>
+<tr><th scope="row">Línea aparte no vendida / 🔒</th><td>5–8 h (Fact. 5.13 + 6.2)</td><td>3–5 h (5.9 cotización 🔒)</td><td>0 h documentadas 🔒 en plan; OC pers. sin línea horaria</td></tr>
+<tr><th scope="row">Facturación timbrada al cliente</th><td>No <span class="chip chip-dash">P1</span></td><td>Sí <span class="chip chip-ok">CFDI</span></td><td>Sí <span class="chip chip-ok">CFDI</span></td></tr>
+<tr><th scope="row">Sitio web</th><td><span class="chip chip-lock">🔒</span> dependencia</td><td><span class="chip chip-extra">+$</span> landing</td><td><span class="chip chip-ok">✓</span></td></tr>
+<tr><th scope="row">E-commerce</th><td><span class="chip chip-lock">🔒</span> dependencia</td><td><span class="chip chip-dash">—</span></td><td><span class="chip chip-ok">✓</span></td></tr>
+<tr><th scope="row">Topes Studio factura / campos</th><td>0 / 0</td><td>3 / 3</td><td>5 / 5 (+ 1 reporte cotización)</td></tr>
+<tr><th scope="row">Integraciones base</th><td>Ninguna</td><td>Ninguna</td><td>Ninguna (todas +$ en matriz P3)</td></tr>
+</tbody>
+</table>
+</div>
+<div class="line-aparte" role="note">
+<strong>No incluido en total comercial:</strong> las horas marcadas como línea aparte / 🔒 interno en el consolidado no suman al paquete vendido; figuran para trazabilidad técnica.
+</div>
+</section>
+
+<section class="card" aria-labelledby="leyenda-title">
+<h2 id="leyenda-title" class="section-title">Leyenda de símbolos (matriz oficial)</h2>
+<div class="legend" role="list">
+<div class="legend-item" role="listitem"><span class="chip chip-ok">✓</span> Incluido en el paquete</div>
+<div class="legend-item" role="listitem"><span class="chip chip-lock">🔒</span> Dependencia técnica o alcance acotado según nota</div>
+<div class="legend-item" role="listitem"><span class="chip chip-extra">+$</span> Módulo o integración adicional · cotización aparte</div>
+<div class="legend-item" role="listitem"><span class="chip chip-opt">[Opcional +]</span> Add-on sugerido</div>
+<div class="legend-item" role="listitem"><span class="chip chip-dash">—</span> Fuera del paquete</div>
+</div>
+<div class="glossary" style="margin-top:1rem;font-size:0.875rem;">
+<details><summary>PAC (plan modelo)</summary>
+<p>Proveedor Autorizado de Certificación — interviene en la emisión de CFDI en implementaciones mexicanas. <strong>Responsabilidad del cliente</strong> cuando aplique timbrado (P2/P3).</p>
+</details>
+<details><summary>CFDI</summary>
+<p>Comprobante Fiscal Digital por Internet; en P2/P3 la facturación al cliente se alinea al alcance del módulo Facturación según matriz.</p>
+</details>
+<details><summary>Studio (Odoo)</summary>
+<p>Personalización de documentos y campos con topes por paquete; escala tipo de licencia según política Odoo. Sin lógica calculada en campos a medida del paquete base.</p>
+</details>
+</div>
+</section>
+<article id="p1" class="package-article" data-pkg="p1" tabindex="-1" aria-labelledby="p1-title">
+<div class="card">
+<p class="package-kicker p1"><span class="badge-initial" aria-hidden="true">P1</span> Paquete Esencial</p>
+<h2 id="p1-title">P1 — Esencial</h2>
+<dl class="meta-row"><div><dt>Horas vendidas</dt><dd class="hours-sold">79–123 h</dd></div><div><dt>Duración estimada</dt><dd>[SUPUESTO: 10–18 semanas calendario]</dd></div></dl>
+<div class="line-aparte"><strong>Línea aparte (no sumada al total comercial):</strong> 5–8 h — actividades 5.13 y 6.2 Facturación 🔒 interno.</div>
+<div class="callout warning" id="p1-riesgos"><strong>Riesgo comercial:</strong> en P1 <strong>no</strong> hay timbrado al cliente. <strong>PAC</strong> es del cliente cuando aplique en fases posteriores. POS sin CFDI.</div>
+</div>
+<div class="subnav-tabs" role="tablist" aria-label="Secciones P1">
+<button type="button" class="subnav-tab" role="tab" aria-selected="true" data-tab="p1-resumen">Resumen</button>
+<button type="button" class="subnav-tab" role="tab" aria-selected="false" data-tab="p1-fases">Fases</button>
+<button type="button" class="subnav-tab" role="tab" aria-selected="false" data-tab="p1-riesgos-tab">Riesgos</button>
+<button type="button" class="subnav-tab" role="tab" aria-selected="false" data-tab="p1-addons">Add-ons</button>
+</div>
+<div id="p1-resumen" class="tab-panel card" role="tabpanel"><h3 class="section-title">Resumen ejecutivo</h3>
+<ul style="color:var(--color-text-muted);"><li><strong>Módulos ✓:</strong> Inventario, Compra, Ventas, Punto de venta, Empleados, Contactos.</li>
+<li><strong>Dependencias 🔒:</strong> Facturación, Sitio web, Comercio electrónico (instalación mínima si aplica arquitectura; sin timbrado al cliente, sin e-commerce ni sitio como entregable P1).</li>
+<li><strong>Add-ons +$ sugeridos:</strong> WhatsApp.</li>
+<li><strong>[Opcional +]:</strong> Código de barras.</li>
+<li><strong>Fuera de alcance (—):</strong> CRM y filas 11–16 no comercializadoras en matriz; Mercado Pago, PayPal, DHL; integración WhatsApp en paquete base.</li></ul>
+<h3 class="section-title" style="margin-top:2rem;">Alcance comercial (1.1–1.6)</h3>
+<details class="scope-block"><summary>1.1 Módulos y aplicaciones</summary><div class="scope-body">Inventario, Compra, Ventas, POS, Empleados, Contactos en ✓. Facturación/Sitio web/E-commerce en 🔒 sin entregables comerciales descritos para esos módulos en P1.</div></details>
+<details class="scope-block"><summary>1.2 Integraciones nativas</summary><div class="scope-body">Ninguna en paquete base.</div></details>
+<details class="scope-block"><summary>1.3 Identidad visual</summary><div class="scope-body identity-block">✓ vía Ajustes → Empresa (sin Studio para identidad).</div></details>
+<details class="scope-block"><summary>1.4 Documentos personalizados (Studio)</summary><div class="scope-body doc-block">P1: factura —; cotización y OC formato estándar. <strong>0 ajustes</strong> Studio en alcance comercial.</div></details>
+<details class="scope-block"><summary>1.5 Campos a medida</summary><div class="scope-body doc-block"><strong>0 campos</strong> Studio en alcance.</div></details>
+<details class="scope-block"><summary>1.6 Fuera de alcance</summary><div class="scope-body doc-block">Replicar diseño externo (SAE, CONTPAQi, Excel); addendas (Walmart, OXXO, Liverpool); automatizaciones con condiciones.</div></details>
+</div>
+<div id="p1-fases" class="tab-panel card" role="tabpanel"><h3 class="section-title">Plan por fase (consolidado)</h3>
+<p class="section-intro">Actividades omitidas (no) en P1: 3.6–3.9, 3.11; 5.7, 5.9, 5.10, 5.12; 6.3–6.4; 7.4–7.5.</p>
+<div class="table-wrap scroll-hint" role="region" aria-label="P1 Esencial — actividades por fase">
+<p class="scroll-hint-text">En pantallas estrechas, desplaza horizontalmente para ver todas las columnas.</p>
+<table class="data-table"><caption>P1 Esencial — actividades por fase</caption><thead><tr>
+<th scope="col">Fase</th><th scope="col">Actividad</th><th scope="col">Rol responsable</th>
+<th scope="col">Horas (rango)</th><th scope="col">Aplica</th><th scope="col">Notas</th>
+</tr></thead><tbody>
+<tr class="row-aplica-sí" data-activity="Comprensión de necesidades y expectativas del cliente"><th scope="row">1</th><td>Comprensión de necesidades y expectativas del cliente</td><td>Consultor Líder DIC</td><td class="num">—</td><td>sí</td><td>Ciclo comercial previo a firma; plan modelo sin desglose horario.</td></tr>
+<tr class="row-aplica-parcial" data-activity="2.1 Sesión de Kick-Off del proyecto"><th scope="row">2</th><td>2.1 Sesión de Kick-Off del proyecto</td><td>Director DIC · Consultor Líder DIC · Consultor Técnico DIC (+ cliente)</td><td class="num">2–3 h</td><td>parcial</td><td>Sin e-commerce, pasarelas ni WhatsApp; documentos sin timbrado P1.</td></tr>
+<tr class="row-aplica-parcial" data-activity="3.1 Sesión de diagnóstico operativo y flujos administrativos"><th scope="row">3</th><td>3.1 Sesión de diagnóstico operativo y flujos administrativos</td><td>Consultor Líder DIC (+ Administradora)</td><td class="num">1–2 h</td><td>parcial</td><td>Sin alcance timbrado al cliente final.</td></tr>
+<tr class="row-aplica-sí" data-activity="3.2 Sesión de retroalimentación con el equipo de ventas"><th scope="row">3</th><td>3.2 Sesión de retroalimentación con el equipo de ventas</td><td>Consultor Líder DIC (+ Vendedoras)</td><td class="num">3–12 h</td><td>sí</td><td>(1–2 h) × (3–6 vendedoras) o 1–2 h sesión grupal.</td></tr>
+<tr class="row-aplica-sí" data-activity="3.3 Sesión de registro y trazabilidad de variantes de productos"><th scope="row">3</th><td>3.3 Sesión de registro y trazabilidad de variantes de productos</td><td>Consultor Líder DIC</td><td class="num">2–3 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="3.4 Sesión de análisis de desarrollo a medida"><th scope="row">3</th><td>3.4 Sesión de análisis de desarrollo a medida</td><td>Consultor Líder DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="3.5 Sesión de estrategia de catálogo complejo y variantes dinámicas"><th scope="row">3</th><td>3.5 Sesión de estrategia de catálogo complejo y variantes dinámicas</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">5–7 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="3.10 Sesión de gestión de clientes y módulo de ventas"><th scope="row">3</th><td>3.10 Sesión de gestión de clientes y módulo de ventas</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1.5–2 h</td><td>parcial</td><td>CRM — en matriz; foco Ventas/Contactos.</td></tr>
+<tr class="row-aplica-sí" data-activity="3.12 Análisis de datos maestros para la carga en Odoo (sin productos)"><th scope="row">3</th><td>3.12 Análisis de datos maestros para la carga en Odoo (sin productos)</td><td>Consultor Líder DIC</td><td class="num">4–6 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="4.1 Elaboración de plantillas de atributos/valores y de productos padre"><th scope="row">4</th><td>4.1 Elaboración de plantillas de atributos/valores y de productos padre</td><td>Consultor Técnico DIC</td><td class="num">3–4 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="4.2 Creación de la base de datos"><th scope="row">4</th><td>4.2 Creación de la base de datos</td><td>Consultor Técnico DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td>Apps alcance P1 + dependencias 🔒 que exija Odoo.</td></tr>
+<tr class="row-aplica-sí" data-activity="4.3 Activación de la base de datos con licencia de pago y usuarios"><th scope="row">4</th><td>4.3 Activación de la base de datos con licencia de pago y usuarios</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.1 Sesión de pruebas y revisión de avances plantilla productos padre"><th scope="row">5</th><td>5.1 Sesión de pruebas y revisión de avances plantilla productos padre</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.2 Sesión de análisis de almacenes y rutas logísticas"><th scope="row">5</th><td>5.2 Sesión de análisis de almacenes y rutas logísticas</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td>Almacenes 1–3.</td></tr>
+<tr class="row-aplica-sí" data-activity="5.3 Revisión de la plantilla de productos padre (variantes)"><th scope="row">5</th><td>5.3 Revisión de la plantilla de productos padre (variantes)</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="5.4 Configuración de variantes, estrategia de precios y exclusiones"><th scope="row">5</th><td>5.4 Configuración de variantes, estrategia de precios y exclusiones</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">2–3 h</td><td>parcial</td><td>Sin bloque CRM/marketing.</td></tr>
+<tr class="row-aplica-sí" data-activity="5.5 Configuración del módulo Inventario de Odoo"><th scope="row">5</th><td>5.5 Configuración del módulo Inventario de Odoo</td><td>Consultor Técnico DIC</td><td class="num">12–16 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.6 Configuración del módulo Contactos de Odoo"><th scope="row">5</th><td>5.6 Configuración del módulo Contactos de Odoo</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.8 Configuración del módulo Empleados de Odoo"><th scope="row">5</th><td>5.8 Configuración del módulo Empleados de Odoo</td><td>Consultor Técnico DIC</td><td class="num">3–4 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.11 Configuración del módulo Ventas de Odoo"><th scope="row">5</th><td>5.11 Configuración del módulo Ventas de Odoo</td><td>Consultor Técnico DIC</td><td class="num">5–7 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-lock" data-activity="5.13 Configuración del módulo Facturación de Odoo"><th scope="row">5</th><td>5.13 Configuración del módulo Facturación de Odoo</td><td>Consultor Técnico DIC</td><td class="num">4–6 h</td><td>🔒 interno</td><td>No suma al total comercial P1; sin timbrado vendido.</td></tr>
+<tr class="row-aplica-sí" data-activity="6.1 Preparación del entorno de pruebas — usuarios finales"><th scope="row">6</th><td>6.1 Preparación del entorno de pruebas — usuarios finales</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-lock" data-activity="6.2 Pruebas de los flujos del módulo Facturación"><th scope="row">6</th><td>6.2 Pruebas de los flujos del módulo Facturación</td><td>Consultor Técnico DIC (+ SPoC)</td><td class="num">1–1.5 h</td><td>🔒 interno</td><td>Misma regla exclusión total vendido.</td></tr>
+<tr class="row-aplica-sí" data-activity="6.5 Pruebas de los flujos del módulo Compras"><th scope="row">6</th><td>6.5 Pruebas de los flujos del módulo Compras</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="6.6 Pruebas de los flujos del módulo Ventas"><th scope="row">6</th><td>6.6 Pruebas de los flujos del módulo Ventas</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="6.7 Pruebas de los flujos del módulo Inventario"><th scope="row">6</th><td>6.7 Pruebas de los flujos del módulo Inventario</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.1 Capacitación del módulo Ventas — Sesión 1 (pre Go-Live)"><th scope="row">7</th><td>7.1 Capacitación del módulo Ventas — Sesión 1 (pre Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">2–3 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.2 Capacitación del módulo Ventas — Sesión 2 (pre Go-Live)"><th scope="row">7</th><td>7.2 Capacitación del módulo Ventas — Sesión 2 (pre Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">3–4 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.3 Capacitación del módulo Ventas — Sesión 3 (post Go-Live)"><th scope="row">7</th><td>7.3 Capacitación del módulo Ventas — Sesión 3 (post Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.6 Capacitación del módulo Contactos"><th scope="row">7</th><td>7.6 Capacitación del módulo Contactos</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.7 Capacitación del módulo Empleados"><th scope="row">7</th><td>7.7 Capacitación del módulo Empleados</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.8 Capacitación del módulo Compras"><th scope="row">7</th><td>7.8 Capacitación del módulo Compras</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.9 Capacitación del módulo Inventario"><th scope="row">7</th><td>7.9 Capacitación del módulo Inventario</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="7.10 Capacitación Conversaciones, mensajería y tableros"><th scope="row">7</th><td>7.10 Capacitación Conversaciones, mensajería y tableros</td><td>Consultor Técnico DIC</td><td class="num">0.5–1 h</td><td>parcial</td><td>Sin WhatsApp +$; chat interno y tableros.</td></tr>
+<tr class="row-aplica-sí" data-activity="8.1 Generación del respaldo de la base de datos anterior"><th scope="row">8</th><td>8.1 Generación del respaldo de la base de datos anterior</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td>Acceso típico 15–20 días.</td></tr>
+<tr class="row-aplica-parcial" data-activity="8.2 Soporte inicial — Ajustes recurrentes datos maestros (Go-Live)"><th scope="row">8</th><td>8.2 Soporte inicial — Ajustes recurrentes datos maestros (Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">5–8 h</td><td>parcial</td><td>Sin Studio documentos fuera de alcance P1.</td></tr>
+</tbody></table></div>
+</div>
+<div id="p1-riesgos-tab" class="tab-panel card" role="tabpanel"><h3 class="section-title">Riesgos y dependencias del cliente</h3>
+<ul style="color:var(--color-text-muted);"><li><strong>POS sin CFDI</strong> en P1; timbrado desde POS no incluido.</li>
+<li><strong>Facturación 🔒:</strong> sin emisión timbrada al cliente final; <strong>PAC</strong> responsabilidad del cliente cuando aplique en fases posteriores.</li>
+<li><strong>Matriz ↔ plan modelo:</strong> POS ✓ en matriz sin actividades dedicadas en plan modelo → [REQUIERE DEFINICIÓN] bloque POS.</li></ul>
+</div>
+<div id="p1-addons" class="tab-panel card" role="tabpanel"><h3 class="section-title">Add-ons sugeridos (cotización aparte)</h3>
+<table class="data-table"><caption>Add-ons P1</caption><thead><tr><th scope="col">Add-on</th><th scope="col">Horas</th><th scope="col">Justificación</th></tr></thead>
+<tbody>
+<tr><td>WhatsApp</td><td class="num">4–6 h</td><td>Plan §5.10</td></tr>
+<tr><td>Código de barras</td><td>—</td><td>[REQUIERE DEFINICIÓN] — [Opcional +] matriz</td></tr>
+<tr><td>POS explícito</td><td>—</td><td>[REQUIERE DEFINICIÓN] — Brecha matriz/plan</td></tr>
+<tr><td>Upgrade P2</td><td>—</td><td>[REQUIERE DEFINICIÓN] — Timbrado</td></tr>
+</tbody></table></div>
+<section class="fase-nueve" aria-labelledby="p1-f9"><h3 id="p1-f9">Fase 9 — Póliza Anual (opcional)</h3>
+<p>Ver plan modelo, Fase 9. <strong>No sumar</strong> al total del paquete. Aplica solo si el cliente contrata la Póliza Anual de Servicio (continuidad operativa, incidentes, evolución).</p>
+</section>
+</article><article id="p2" class="package-article" data-pkg="p2" tabindex="-1" aria-labelledby="p2-title">
+<div class="card">
+<p class="package-kicker p2"><span class="badge-initial" aria-hidden="true">P2</span> Paquete Comercial</p>
+<h2 id="p2-title">P2 — Comercial</h2>
+<dl class="meta-row"><div><dt>Horas vendidas</dt><dd class="hours-sold">89–137 h</dd></div><div><dt>Línea aparte</dt><dd>3–5 h (5.9 cotización 🔒)</dd></div><div><dt>Duración estimada</dt><dd>[SUPUESTO: 11–19 semanas calendario]</dd></div></dl>
+</div>
+<div class="subnav-tabs" role="tablist" aria-label="Secciones P2">
+<button type="button" class="subnav-tab" role="tab" aria-selected="true" data-tab="p2-resumen">Resumen</button>
+<button type="button" class="subnav-tab" role="tab" aria-selected="false" data-tab="p2-fases">Fases</button>
+<button type="button" class="subnav-tab" role="tab" aria-selected="false" data-tab="p2-riesgos-tab">Riesgos</button>
+<button type="button" class="subnav-tab" role="tab" aria-selected="false" data-tab="p2-addons">Add-ons</button>
+</div>
+<div id="p2-resumen" class="tab-panel card" role="tabpanel"><h3 class="section-title">Resumen ejecutivo</h3>
+<ul style="color:var(--color-text-muted);"><li><strong>Módulos ✓:</strong> Inventario, Compra, Ventas, POS, Empleados, Contactos, Facturación (CFDI al cliente según alcance Facturación).</li>
+<li><strong>Documental 🔒:</strong> Cotización/remisión personalizada 🔒 en matriz (horas 5.9 → línea aparte).</li>
+<li><strong>Add-ons +$:</strong> Sitio web (landing), WhatsApp.</li>
+<li><strong>[Opcional +]:</strong> Código de barras.</li></ul>
+<h3 class="section-title" style="margin-top:2rem;">Alcance 1.1–1.6 (resumen)</h3>
+<p style="color:var(--color-text-muted);">Facturación timbrada ✓; Sitio web y WhatsApp <strong>+$</strong>; e-commerce —; identidad vía Empresa; Studio factura hasta <strong>3</strong> ajustes; campos hasta <strong>3</strong>; cotización estándar salvo add-on; OC 🔒/add-on; fuera de alcance igual matriz §2.</p>
+<details class="scope-block"><summary>1.3 Identidad visual (sin mezclar con Studio)</summary><div class="scope-body identity-block">Logo, colores y tipografía en reportes desde <strong>Ajustes → Empresa</strong>. Sin Studio para identidad.</div></details>
+<details class="scope-block"><summary>1.4 Documentos Studio (tope)</summary><div class="scope-body doc-block">Factura hasta <strong>3</strong> ajustes Studio; cotización estándar salvo add-on; OC 🔒 o add-on.</div></details>
+<details class="scope-block"><summary>1.5 Campos a medida</summary><div class="scope-body doc-block">Hasta <strong>3 campos</strong> (texto, número, fecha, lista); sin lógica calculada.</div></details>
+<details class="scope-block"><summary>1.6 Fuera de alcance</summary><div class="scope-body doc-block">Replicar diseño externo; addendas cadenas comerciales; automatizaciones con condiciones (matriz §2).</div></details>
+</div>
+<div id="p2-fases" class="tab-panel card" role="tabpanel"><h3 class="section-title">Plan por fase</h3>
+<p class="section-intro">Omitidas (no): 3.6–3.9, 3.11; 5.7; 5.10, 5.12; 6.3–6.4; 7.5.</p>
+<div class="table-wrap scroll-hint" role="region" aria-label="P2 Comercial — actividades por fase">
+<p class="scroll-hint-text">En pantallas estrechas, desplaza horizontalmente para ver todas las columnas.</p>
+<table class="data-table"><caption>P2 Comercial — actividades por fase</caption><thead><tr>
+<th scope="col">Fase</th><th scope="col">Actividad</th><th scope="col">Rol responsable</th>
+<th scope="col">Horas (rango)</th><th scope="col">Aplica</th><th scope="col">Notas</th>
+</tr></thead><tbody>
+<tr class="row-aplica-sí" data-activity="Comprensión de necesidades y expectativas del cliente"><th scope="row">1</th><td>Comprensión de necesidades y expectativas del cliente</td><td>Consultor Líder DIC</td><td class="num">—</td><td>sí</td><td>Previo a firma; sin horas desagregadas en plan modelo.</td></tr>
+<tr class="row-aplica-parcial" data-activity="2.1 Sesión de Kick-Off del proyecto"><th scope="row">2</th><td>2.1 Sesión de Kick-Off del proyecto</td><td>Director DIC · Consultor Líder DIC · Consultor Técnico DIC (+ cliente)</td><td class="num">2–3 h</td><td>parcial</td><td>Incluye facturación/tope Studio factura; excluye e-com, pasarelas, WhatsApp.</td></tr>
+<tr class="row-aplica-sí" data-activity="3.1 Sesión de diagnóstico operativo y flujos administrativos"><th scope="row">3</th><td>3.1 Sesión de diagnóstico operativo y flujos administrativos</td><td>Consultor Líder DIC (+ Administradora)</td><td class="num">1–2 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="3.2 Sesión de retroalimentación con el equipo de ventas"><th scope="row">3</th><td>3.2 Sesión de retroalimentación con el equipo de ventas</td><td>Consultor Líder DIC (+ Vendedoras)</td><td class="num">3–12 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="3.3 Sesión de registro y trazabilidad de variantes de productos"><th scope="row">3</th><td>3.3 Sesión de registro y trazabilidad de variantes de productos</td><td>Consultor Líder DIC</td><td class="num">2–3 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="3.4 Sesión de análisis de desarrollo a medida"><th scope="row">3</th><td>3.4 Sesión de análisis de desarrollo a medida</td><td>Consultor Líder DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="3.5 Sesión de estrategia de catálogo complejo y variantes dinámicas"><th scope="row">3</th><td>3.5 Sesión de estrategia de catálogo complejo y variantes dinámicas</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">5–7 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="3.10 Sesión de gestión de clientes y módulo de ventas"><th scope="row">3</th><td>3.10 Sesión de gestión de clientes y módulo de ventas</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1.5–2 h</td><td>parcial</td><td>CRM — matriz P2.</td></tr>
+<tr class="row-aplica-sí" data-activity="3.12 Análisis de datos maestros para la carga en Odoo (sin productos)"><th scope="row">3</th><td>3.12 Análisis de datos maestros para la carga en Odoo (sin productos)</td><td>Consultor Líder DIC</td><td class="num">4–6 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="4.1 Elaboración de plantillas de atributos/valores y de productos padre"><th scope="row">4</th><td>4.1 Elaboración de plantillas de atributos/valores y de productos padre</td><td>Consultor Técnico DIC</td><td class="num">3–4 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="4.2 Creación de la base de datos"><th scope="row">4</th><td>4.2 Creación de la base de datos</td><td>Consultor Técnico DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td>Sin e-commerce; Sitio web solo si +$.</td></tr>
+<tr class="row-aplica-sí" data-activity="4.3 Activación de la base de datos con licencia de pago y usuarios"><th scope="row">4</th><td>4.3 Activación de la base de datos con licencia de pago y usuarios</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.1 Sesión de pruebas y revisión de avances plantilla productos padre"><th scope="row">5</th><td>5.1 Sesión de pruebas y revisión de avances plantilla productos padre</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.2 Sesión de análisis de almacenes y rutas logísticas"><th scope="row">5</th><td>5.2 Sesión de análisis de almacenes y rutas logísticas</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.3 Revisión de la plantilla de productos padre (variantes)"><th scope="row">5</th><td>5.3 Revisión de la plantilla de productos padre (variantes)</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="5.4 Configuración de variantes, estrategia de precios y exclusiones"><th scope="row">5</th><td>5.4 Configuración de variantes, estrategia de precios y exclusiones</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">2–3 h</td><td>parcial</td><td>Sin CRM/marketing.</td></tr>
+<tr class="row-aplica-sí" data-activity="5.5 Configuración del módulo Inventario de Odoo"><th scope="row">5</th><td>5.5 Configuración del módulo Inventario de Odoo</td><td>Consultor Técnico DIC</td><td class="num">12–16 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.6 Configuración del módulo Contactos de Odoo"><th scope="row">5</th><td>5.6 Configuración del módulo Contactos de Odoo</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.8 Configuración del módulo Empleados de Odoo"><th scope="row">5</th><td>5.8 Configuración del módulo Empleados de Odoo</td><td>Consultor Técnico DIC</td><td class="num">3–4 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-lock" data-activity="5.9 Personalización de la cotización de venta — módulo Ventas"><th scope="row">5</th><td>5.9 Personalización de la cotización de venta — módulo Ventas</td><td>Consultor Técnico DIC</td><td class="num">3–5 h</td><td>🔒 interno</td><td>Matriz P2: cotización 🔒; no en total comercial salvo add-on.</td></tr>
+<tr class="row-aplica-sí" data-activity="5.11 Configuración del módulo Ventas de Odoo"><th scope="row">5</th><td>5.11 Configuración del módulo Ventas de Odoo</td><td>Consultor Técnico DIC</td><td class="num">5–7 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.13 Configuración del módulo Facturación de Odoo"><th scope="row">5</th><td>5.13 Configuración del módulo Facturación de Odoo</td><td>Consultor Técnico DIC</td><td class="num">4–6 h</td><td>sí</td><td>PAC cliente; tope 3 ajustes factura Studio.</td></tr>
+<tr class="row-aplica-sí" data-activity="6.1 Preparación del entorno de pruebas — usuarios finales"><th scope="row">6</th><td>6.1 Preparación del entorno de pruebas — usuarios finales</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="6.2 Pruebas de los flujos del módulo Facturación"><th scope="row">6</th><td>6.2 Pruebas de los flujos del módulo Facturación</td><td>Consultor Técnico DIC (+ SPoC)</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="6.5 Pruebas de los flujos del módulo Compras"><th scope="row">6</th><td>6.5 Pruebas de los flujos del módulo Compras</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="6.6 Pruebas de los flujos del módulo Ventas"><th scope="row">6</th><td>6.6 Pruebas de los flujos del módulo Ventas</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="6.7 Pruebas de los flujos del módulo Inventario"><th scope="row">6</th><td>6.7 Pruebas de los flujos del módulo Inventario</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.1 Capacitación del módulo Ventas — Sesión 1 (pre Go-Live)"><th scope="row">7</th><td>7.1 Capacitación del módulo Ventas — Sesión 1 (pre Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">2–3 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.2 Capacitación del módulo Ventas — Sesión 2 (pre Go-Live)"><th scope="row">7</th><td>7.2 Capacitación del módulo Ventas — Sesión 2 (pre Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">3–4 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.3 Capacitación del módulo Ventas — Sesión 3 (post Go-Live)"><th scope="row">7</th><td>7.3 Capacitación del módulo Ventas — Sesión 3 (post Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.4 Capacitación del módulo Facturación"><th scope="row">7</th><td>7.4 Capacitación del módulo Facturación</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">5–7 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.6 Capacitación del módulo Contactos"><th scope="row">7</th><td>7.6 Capacitación del módulo Contactos</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.7 Capacitación del módulo Empleados"><th scope="row">7</th><td>7.7 Capacitación del módulo Empleados</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.8 Capacitación del módulo Compras"><th scope="row">7</th><td>7.8 Capacitación del módulo Compras</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.9 Capacitación del módulo Inventario"><th scope="row">7</th><td>7.9 Capacitación del módulo Inventario</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="7.10 Capacitación Conversaciones, mensajería y tableros"><th scope="row">7</th><td>7.10 Capacitación Conversaciones, mensajería y tableros</td><td>Consultor Técnico DIC</td><td class="num">0.5–1 h</td><td>parcial</td><td>Sin WhatsApp +$.</td></tr>
+<tr class="row-aplica-sí" data-activity="8.1 Generación del respaldo de la base de datos anterior"><th scope="row">8</th><td>8.1 Generación del respaldo de la base de datos anterior</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="8.2 Soporte inicial — Ajustes recurrentes datos maestros (Go-Live)"><th scope="row">8</th><td>8.2 Soporte inicial — Ajustes recurrentes datos maestros (Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">5–8 h</td><td>parcial</td><td>Topes Studio: 3 factura, 3 campos.</td></tr>
+</tbody></table></div>
+</div>
+<div id="p2-riesgos-tab" class="tab-panel card" role="tabpanel"><h3 class="section-title">Riesgos</h3>
+<p style="color:var(--color-text-muted);">PAC cliente; POS vs CFDI si flujo ticket; contabilidad/PPD revisar; DHL solo Express API en +$; brecha POS sin líneas plan modelo.</p>
+</div>
+<div id="p2-addons" class="tab-panel card" role="tabpanel"><h3 class="section-title">Add-ons (cotización aparte)</h3>
+<table class="data-table"><caption>Add-ons P2</caption><thead><tr><th scope="col">Add-on</th><th scope="col">Horas</th></tr></thead><tbody>
+<tr><td>Sitio web</td><td>[REQUIERE DEFINICIÓN] h</td></tr>
+<tr><td>WhatsApp</td><td class="num">4–6 h</td></tr>
+<tr><td>Mercado Pago / PayPal / DHL</td><td>N/A en P2 base</td></tr>
+<tr><td>OC personalizada</td><td>[REQUIERE DEFINICIÓN]</td></tr>
+<tr><td>POS explícito</td><td>[REQUIERE DEFINICIÓN]</td></tr>
+</tbody></table></div>
+<section class="fase-nueve" aria-labelledby="p2-f9"><h3 id="p2-f9">Fase 9 — Póliza Anual (opcional)</h3><p>Opcional — ver plan modelo. No sumar al total del paquete.</p></section>
+</article><article id="p3" class="package-article" data-pkg="p3" tabindex="-1" aria-labelledby="p3-title">
+<div class="card">
+<p class="package-kicker p3"><span class="badge-initial" aria-hidden="true">P3</span> Paquete Omnicanal</p>
+<h2 id="p3-title">P3 — Omnicanal</h2>
+<dl class="meta-row"><div><dt>Horas vendidas</dt><dd class="hours-sold">102–157 h</dd></div><div><dt>Línea aparte 🔒</dt><dd>0 h documentadas en plan modelo (OC personalizada sin línea horaria)</dd></div><div><dt>Duración estimada</dt><dd>[SUPUESTO: 14–22 semanas calendario]</dd></div></dl>
+<p class="line-aparte" style="border-style:solid;">Integraciones matriz P3 <strong>+$</strong> (WhatsApp, Mercado Pago, PayPal, <strong>DHL Express API</strong>) <strong>no</strong> están en el total base del paquete.</p>
+</div>
+<div class="subnav-tabs" role="tablist" aria-label="Secciones P3">
+<button type="button" class="subnav-tab" role="tab" aria-selected="true" data-tab="p3-resumen">Resumen</button>
+<button type="button" class="subnav-tab" role="tab" aria-selected="false" data-tab="p3-fases">Fases</button>
+<button type="button" class="subnav-tab" role="tab" aria-selected="false" data-tab="p3-riesgos-tab">Riesgos</button>
+<button type="button" class="subnav-tab" role="tab" aria-selected="false" data-tab="p3-addons">Add-ons</button>
+</div>
+<div id="p3-resumen" class="tab-panel card" role="tabpanel"><h3 class="section-title">Resumen ejecutivo</h3>
+<ul style="color:var(--color-text-muted);"><li><strong>Módulos ✓:</strong> Inventario, Compra, Ventas, POS, Empleados, Contactos, Facturación, Sitio web, Comercio electrónico.</li>
+<li><strong>Documental:</strong> Factura hasta <strong>5</strong> ajustes Studio; <strong>1</strong> reporte adicional cotización; OC 🔒/add-on.</li>
+<li><strong>Integraciones +$ (matriz):</strong> WhatsApp, Mercado Pago, PayPal, DHL Express (API) — no en total base.</li></ul>
+<h3 class="section-title" style="margin-top:2rem;">Alcance (resumen)</h3>
+<p style="color:var(--color-text-muted);">Nueve aplicaciones ✓ en fila principal matriz; CRM —; identidad sin Studio; campos hasta 5; fuera de alcance matriz §2.</p>
+<details class="scope-block"><summary>1.3 Identidad vs 1.4 Documentos</summary><div class="scope-body">Identidad: Ajustes → Empresa. Documentos Studio: topes factura / cotización según consolidado.</div></details>
+</div>
+<div id="p3-fases" class="tab-panel card" role="tabpanel"><h3 class="section-title">Plan por fase</h3>
+<p class="section-intro">Omitidas (no): 3.6–3.9, 3.11; 5.7; 5.10; 6.3.</p>
+<div class="table-wrap scroll-hint" role="region" aria-label="P3 Omnicanal — actividades por fase">
+<p class="scroll-hint-text">En pantallas estrechas, desplaza horizontalmente para ver todas las columnas.</p>
+<table class="data-table"><caption>P3 Omnicanal — actividades por fase</caption><thead><tr>
+<th scope="col">Fase</th><th scope="col">Actividad</th><th scope="col">Rol responsable</th>
+<th scope="col">Horas (rango)</th><th scope="col">Aplica</th><th scope="col">Notas</th>
+</tr></thead><tbody>
+<tr class="row-aplica-sí" data-activity="Comprensión de necesidades y expectativas del cliente"><th scope="row">1</th><td>Comprensión de necesidades y expectativas del cliente</td><td>Consultor Líder DIC</td><td class="num">—</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="2.1 Sesión de Kick-Off del proyecto"><th scope="row">2</th><td>2.1 Sesión de Kick-Off del proyecto</td><td>Director DIC · Consultor Líder DIC · Consultor Técnico DIC (+ cliente)</td><td class="num">2–3 h</td><td>parcial</td><td>Plantillas e-com; excluye credenciales +$ hasta contratación.</td></tr>
+<tr class="row-aplica-sí" data-activity="3.1 Sesión de diagnóstico operativo y flujos administrativos"><th scope="row">3</th><td>3.1 Sesión de diagnóstico operativo y flujos administrativos</td><td>Consultor Líder DIC (+ Administradora)</td><td class="num">1–2 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="3.2 Sesión de retroalimentación con el equipo de ventas"><th scope="row">3</th><td>3.2 Sesión de retroalimentación con el equipo de ventas</td><td>Consultor Líder DIC (+ Vendedoras)</td><td class="num">3–12 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="3.3 Sesión de registro y trazabilidad de variantes de productos"><th scope="row">3</th><td>3.3 Sesión de registro y trazabilidad de variantes de productos</td><td>Consultor Líder DIC</td><td class="num">2–3 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="3.4 Sesión de análisis de desarrollo a medida"><th scope="row">3</th><td>3.4 Sesión de análisis de desarrollo a medida</td><td>Consultor Líder DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="3.5 Sesión de estrategia de catálogo complejo y variantes dinámicas"><th scope="row">3</th><td>3.5 Sesión de estrategia de catálogo complejo y variantes dinámicas</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">5–7 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="3.10 Sesión de gestión de clientes y módulo de ventas"><th scope="row">3</th><td>3.10 Sesión de gestión de clientes y módulo de ventas</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1.5–2 h</td><td>parcial</td><td>CRM —; Ventas/Contactos y canales digitales.</td></tr>
+<tr class="row-aplica-sí" data-activity="3.12 Análisis de datos maestros para la carga en Odoo (sin productos)"><th scope="row">3</th><td>3.12 Análisis de datos maestros para la carga en Odoo (sin productos)</td><td>Consultor Líder DIC</td><td class="num">4–6 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="4.1 Elaboración de plantillas de atributos/valores y de productos padre"><th scope="row">4</th><td>4.1 Elaboración de plantillas de atributos/valores y de productos padre</td><td>Consultor Técnico DIC</td><td class="num">3–4 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="4.2 Creación de la base de datos"><th scope="row">4</th><td>4.2 Creación de la base de datos</td><td>Consultor Técnico DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td>Incluye Sitio web y E-commerce P3.</td></tr>
+<tr class="row-aplica-sí" data-activity="4.3 Activación de la base de datos con licencia de pago y usuarios"><th scope="row">4</th><td>4.3 Activación de la base de datos con licencia de pago y usuarios</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.1 Sesión de pruebas y revisión de avances plantilla productos padre"><th scope="row">5</th><td>5.1 Sesión de pruebas y revisión de avances plantilla productos padre</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.2 Sesión de análisis de almacenes y rutas logísticas"><th scope="row">5</th><td>5.2 Sesión de análisis de almacenes y rutas logísticas</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1.5–2.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.3 Revisión de la plantilla de productos padre (variantes)"><th scope="row">5</th><td>5.3 Revisión de la plantilla de productos padre (variantes)</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="5.4 Configuración de variantes, estrategia de precios y exclusiones"><th scope="row">5</th><td>5.4 Configuración de variantes, estrategia de precios y exclusiones</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">2–3 h</td><td>parcial</td><td>Sin CRM.</td></tr>
+<tr class="row-aplica-sí" data-activity="5.5 Configuración del módulo Inventario de Odoo"><th scope="row">5</th><td>5.5 Configuración del módulo Inventario de Odoo</td><td>Consultor Técnico DIC</td><td class="num">12–16 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.6 Configuración del módulo Contactos de Odoo"><th scope="row">5</th><td>5.6 Configuración del módulo Contactos de Odoo</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.8 Configuración del módulo Empleados de Odoo"><th scope="row">5</th><td>5.8 Configuración del módulo Empleados de Odoo</td><td>Consultor Técnico DIC</td><td class="num">3–4 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.9 Personalización de la cotización de venta — módulo Ventas"><th scope="row">5</th><td>5.9 Personalización de la cotización de venta — módulo Ventas</td><td>Consultor Técnico DIC</td><td class="num">3–5 h</td><td>sí</td><td>Tope: 1 reporte adicional cotización P3.</td></tr>
+<tr class="row-aplica-sí" data-activity="5.11 Configuración del módulo Ventas de Odoo"><th scope="row">5</th><td>5.11 Configuración del módulo Ventas de Odoo</td><td>Consultor Técnico DIC</td><td class="num">5–7 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="5.12 Configuración del módulo Comercio Electrónico de Odoo"><th scope="row">5</th><td>5.12 Configuración del módulo Comercio Electrónico de Odoo</td><td>Consultor Técnico DIC</td><td class="num">9–12 h</td><td>sí</td><td>Pasarelas 1–3 si contratadas [SUPUESTO].</td></tr>
+<tr class="row-aplica-sí" data-activity="5.13 Configuración del módulo Facturación de Odoo"><th scope="row">5</th><td>5.13 Configuración del módulo Facturación de Odoo</td><td>Consultor Técnico DIC</td><td class="num">4–6 h</td><td>sí</td><td>Tope 5 ajustes factura; PAC cliente.</td></tr>
+<tr class="row-aplica-sí" data-activity="6.1 Preparación del entorno de pruebas — usuarios finales"><th scope="row">6</th><td>6.1 Preparación del entorno de pruebas — usuarios finales</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="6.2 Pruebas de los flujos del módulo Facturación"><th scope="row">6</th><td>6.2 Pruebas de los flujos del módulo Facturación</td><td>Consultor Técnico DIC (+ SPoC)</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="6.4 Pruebas de los flujos del módulo Comercio Electrónico"><th scope="row">6</th><td>6.4 Pruebas de los flujos del módulo Comercio Electrónico</td><td>Consultor Técnico DIC</td><td class="num">0.5–1 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="6.5 Pruebas de los flujos del módulo Compras"><th scope="row">6</th><td>6.5 Pruebas de los flujos del módulo Compras</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="6.6 Pruebas de los flujos del módulo Ventas"><th scope="row">6</th><td>6.6 Pruebas de los flujos del módulo Ventas</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="6.7 Pruebas de los flujos del módulo Inventario"><th scope="row">6</th><td>6.7 Pruebas de los flujos del módulo Inventario</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.1 Capacitación del módulo Ventas — Sesión 1 (pre Go-Live)"><th scope="row">7</th><td>7.1 Capacitación del módulo Ventas — Sesión 1 (pre Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">2–3 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.2 Capacitación del módulo Ventas — Sesión 2 (pre Go-Live)"><th scope="row">7</th><td>7.2 Capacitación del módulo Ventas — Sesión 2 (pre Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">3–4 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.3 Capacitación del módulo Ventas — Sesión 3 (post Go-Live)"><th scope="row">7</th><td>7.3 Capacitación del módulo Ventas — Sesión 3 (post Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.4 Capacitación del módulo Facturación"><th scope="row">7</th><td>7.4 Capacitación del módulo Facturación</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">5–7 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.5 Capacitación del módulo Comercio Electrónico"><th scope="row">7</th><td>7.5 Capacitación del módulo Comercio Electrónico</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.6 Capacitación del módulo Contactos"><th scope="row">7</th><td>7.6 Capacitación del módulo Contactos</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.7 Capacitación del módulo Empleados"><th scope="row">7</th><td>7.7 Capacitación del módulo Empleados</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.8 Capacitación del módulo Compras"><th scope="row">7</th><td>7.8 Capacitación del módulo Compras</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-sí" data-activity="7.9 Capacitación del módulo Inventario"><th scope="row">7</th><td>7.9 Capacitación del módulo Inventario</td><td>Consultor Técnico DIC</td><td class="num">1–1.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="7.10 Capacitación Conversaciones, mensajería y tableros"><th scope="row">7</th><td>7.10 Capacitación Conversaciones, mensajería y tableros</td><td>Consultor Técnico DIC</td><td class="num">0.5–1 h</td><td>parcial</td><td>Sin WhatsApp +$.</td></tr>
+<tr class="row-aplica-sí" data-activity="8.1 Generación del respaldo de la base de datos anterior"><th scope="row">8</th><td>8.1 Generación del respaldo de la base de datos anterior</td><td>Consultor Técnico DIC</td><td class="num">2.5–3.5 h</td><td>sí</td><td></td></tr>
+<tr class="row-aplica-parcial" data-activity="8.2 Soporte inicial — Ajustes recurrentes datos maestros (Go-Live)"><th scope="row">8</th><td>8.2 Soporte inicial — Ajustes recurrentes datos maestros (Go-Live)</td><td>Consultor Líder DIC · Consultor Técnico DIC</td><td class="num">5–8 h</td><td>parcial</td><td>Topes: 5 factura, 1 reporte cotización, 5 campos.</td></tr>
+</tbody></table></div>
+</div>
+<div id="p3-riesgos-tab" class="tab-panel card" role="tabpanel"><h3 class="section-title">Riesgos</h3>
+<p style="color:var(--color-text-muted);">Integraciones +$; PAC; POS brecha plan modelo; contabilidad/PPD; e-commerce vs operación real.</p>
+</div>
+<div id="p3-addons" class="tab-panel card" role="tabpanel"><h3 class="section-title">Add-ons</h3>
+<table class="data-table"><caption>Add-ons P3</caption><thead><tr><th scope="col">Add-on</th><th scope="col">Horas / estado</th></tr></thead><tbody>
+<tr><td>WhatsApp</td><td class="num">4–6 h</td></tr>
+<tr><td>Mercado Pago, PayPal, DHL Express</td><td>[REQUIERE DEFINICIÓN]</td></tr>
+<tr><td>Código de barras; OC; POS; contabilidad extendida</td><td>Cotización aparte</td></tr>
+</tbody></table></div>
+<section class="fase-nueve" aria-labelledby="p3-f9"><h3 id="p3-f9">Fase 9 — Póliza Anual (opcional)</h3><p>Opcional — plan modelo. No sumar al total del paquete.</p></section>
+</article>
+<section id="riesgos-comunes" class="card" aria-labelledby="riesgos-globales-title">
+<h2 id="riesgos-globales-title" class="section-title">Notas transversales (matriz + rol arquitecto)</h2>
+<ul style="margin:0;padding-left:1.25rem;color:var(--color-text-muted);font-size:0.9375rem;">
+<li><strong>POS en P1:</strong> puede generar tickets de venta en Odoo <strong>sin CFDI</strong>; riesgo de expectativa si se requiere timbrado desde POS (ver riesgos del paquete P1).</li>
+<li><strong>Contabilidad:</strong> en matriz, riesgo técnico / revisar; si el cliente opera con crédito (PPD), considerar Contabilidad como add-on.</li>
+<li><strong>DHL +$ (P3):</strong> verificar <strong>DHL Express (API)</strong> frente a otros productos de paquetería.</li>
+</ul>
+</section>
+</main>
+
+<footer class="site-footer">
+<div class="container">
+<p><strong>Fuentes:</strong> <code>../documentos/planes-implementacion-consolidado-odoo19/planes-implementacion-paquetes-dic-odoo19-comercializadoras.md</code>, <code>../documentos/matriz-alcance-oficial-comercializadoras/matriz-oficial-paquetes-y-documentos-comercializadoras.md</code>, <code>../documentos/prompts-ia-paquetes-y-html/rol-arquitecto-paquetes-dic.md</code>, <code>../documentos/metodologia-plan-modelo-dic/plan-modelo-dic-implementacion-odoo.md</code> · Vista HTML alineada al consolidado del <time datetime="2026-04-24">2026-04-24</time>.</p>
+<p class="no-js-nav">Sin JavaScript: enlaces directos a <a href="#p1">P1 Esencial</a> · <a href="#p2">P2 Comercial</a> · <a href="#p3">P3 Omnicanal</a> · <a href="#comparativa">comparativa</a>. Con JavaScript puede usarse <code>?paquete=p2</code> en la URL.</p>
+</div>
+</footer>
+<script src="app.js" defer></script>
+</body>
+</html>
